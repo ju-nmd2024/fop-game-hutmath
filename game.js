@@ -216,7 +216,7 @@ function ground(){
     pop();
 }
 
-function youDiedText(){
+function gameOverText(){
     noStroke();
     push();
     fill(52, 235, 140);
@@ -276,7 +276,7 @@ function mouseClicked() {
     }
     }
     
-    if (gameState === true) {}
+    if (gameState === true && characterY > 920) {
     if (mouseX > 130 && mouseX < 430 && mouseY > 300 && mouseY < 400) {
         console.log("det fungerade??!");
         clear();
@@ -285,27 +285,19 @@ function mouseClicked() {
         let acceleration = 0.2;
     }
     }
+    }
 
 function draw(){
-    /*gameplay button
-    mousepressed within parameters, then gamestate === true,
-    therefore the game is starting
-    */
+
     background(199, 250, 255);
     playButton();
     // if (gameState === false) {
-    //     playButton();
     //     /*make an aesthetic image of a tree,
     //     and silhouette of koala eatin some eucalyptus,
     //     with clouds, and maybe some leaves,
     //     mountains in the background haha
     //     */
     // }
-
-    /* somehow make the game start/change gameState,
-    so the actual game starts, and it chanegs from the playGame
-    button to the atual game display
-    */
     
     if (gameState === true) {
         tree();
@@ -340,11 +332,10 @@ function draw(){
         if (x > 600) {
             notMirrored = false;
         }
-
         }
 
         if (characterY > 920) {
-            youDiedText();
+            gameOverText();
             replayButton();
             velocityY =  0;
             accelleration = 0;
@@ -354,13 +345,10 @@ function draw(){
             }
         }
     // velocity counter fail > succeed
+    if (characterY > 920 && velocityY > 8) {
+        console.log("too fast, koala hurt his butt");
+    } 
+    // if (characterY > 920 && velocityY < 0) {
+    //     console.log("koala made it down safely");
+    // }
 }
-
-        // function keyPressed() {
-        //     if (!gameState && keyCode === "32")
-        //         gameState = true;
-        //         play =true;
-        //         characterY = 90;
-        //         velocityY = 4;
-        //         console.log("Replay")
-        //     } 
