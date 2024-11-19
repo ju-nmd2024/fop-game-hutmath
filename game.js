@@ -20,20 +20,19 @@ as well as from a lab session
  */
 
 let x = 685;
-let y = 90;
+// let y = 90;
+// characterX = 685;
 let characterY = 90;
 
+//gamelogic i guess
 let velocityY = 4;
-let gravity = 4;
 let acceleration = 0.2;
-let isMirrored = true;
+let notMirrored = true;
 
-let gameState = true;
-let gamePlay = true;
-
+let gameState = false;
 
 function setup() {
-    createCanvas (550, 700);
+    createCanvas (600, 700);
 }
 
 function character(x, y, mirrored) {
@@ -233,7 +232,7 @@ function youDiedText(){
 }
 
 function playButton() {
-     noStroke();
+    noStroke();
     push();
     fill(52, 235, 140);
     rect(130, 155, 300, 100);
@@ -247,62 +246,121 @@ function playButton() {
     pop();
 }
 
+function replayButton() {
+    noStroke();
+    push();
+    fill(52, 235, 140);
+    rect(130, 300, 300, 100);
+    pop();
+
+    //text
+    push();
+    fill(189, 255, 221);
+    textSize(50);
+    text('Replay', 200, 325, 300, 200);
+    pop();
+}
+
 //keyCode
 function keyPressed() {
     console.log("Key " + keyCode + " has been pressed");
 }
 
-function draw(){
-    background(199, 250, 255);
-    tree();
-    ground();
-    notMirrored = false;
+function mouseClicked() {
+    if (gameState === false) {
+    if (mouseX > 130 && mouseX < 430 && mouseY > 155 && mouseY < 255 ) {
+        
+        //loop until fail statement? how do you do this!!! aargh
+        gameState = true;
+        console.log("working?");
+    }
+    }
+    
+    if (gameState === true) {}
+    if (mouseX > 130 && mouseX < 430 && mouseY > 300 && mouseY < 400) {
+        console.log("det fungerade??!");
+        clear();
+        characterY = 90;
+        let velocityY = 4;
+        let acceleration = 0.2;
+    }
+    }
 
+function draw(){
     /*gameplay button
     mousepressed within parameters, then gamestate === true,
     therefore the game is starting
     */
-    if (gamePlay === true) {
-    //button pressed >> the game is playing
-    if (gameState === true) {
+    background(199, 250, 255);
+    playButton();
+    // if (gameState === false) {
+    //     playButton();
+    //     /*make an aesthetic image of a tree,
+    //     and silhouette of koala eatin some eucalyptus,
+    //     with clouds, and maybe some leaves,
+    //     mountains in the background haha
+    //     */
+    // }
 
-    characterY = characterY + velocityY;
-    velocityY = velocityY + acceleration;
-
-    // up-key
-    if (keyIsDown(38)) {
-    velocityY = velocityY - 0.7;
-    }
-   
-    // left movement
-    if (keyIsDown(37 || 65)) {
-       x = 360;
-       notMirrored = true;
+    /* somehow make the game start/change gameState,
+    so the actual game starts, and it chanegs from the playGame
+    button to the atual game display
+    */
     
-    // right movement
-    } else if (keyIsDown(39 || 68)) {
-        x = 685;
-        notMirrored = false;
-    }
+    if (gameState === true) {
+        tree();
+        ground();
+        character(x, characterY, notMirrored);
 
+        //physics - taken from demo time (flappy-ufo)
+        characterY = characterY + velocityY;
+        velocityY = velocityY + acceleration;
 
-    if (characterY > 920) {
-        gameState = false;
-        console.log("you died");
-    }
-
-    if (x < 400) {
-        notMirrored = true;
-    }
-    }
-
-    if (gameState === false) {
-        youDiedText();
         if (x < 400) {
             notMirrored = true;
-        }
-    }
+            }
 
-    character(x, characterY, notMirrored);
+        //game character movement (up/left/right) 
+        // up movement
+        if (keyIsDown(38)) {
+        velocityY = velocityY - 0.7;
+        }
+   
+        // left movement
+        if (keyIsDown(37 || 65)) {
+           x = 360;
+           notMirrored = true;
+    
+        // right movement
+        } else if (keyIsDown(39 || 68)) {
+        x = 685;
+        notMirrored = false;
+        }
+        
+        if (x > 600) {
+            notMirrored = false;
+        }
+
+        }
+
+        if (characterY > 920) {
+            youDiedText();
+            replayButton();
+            velocityY =  0;
+            accelleration = 0;
+            if (x < 400) {
+                notMirrored = true;
+                console.log("you died");
+            }
+        }
+    // velocity counter fail > succeed
 }
-}
+
+        // function keyPressed() {
+        //     if (!gameState && keyCode === "32")
+        //         gameState = true;
+        //         play =true;
+        //         characterY = 90;
+        //         velocityY = 4;
+        //         console.log("Replay")
+        //     } 
