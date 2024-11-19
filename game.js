@@ -1,33 +1,9 @@
-/*
-Koala sliding down a tree game
-
-OBJECTS
-Koala
-Tree
-Clouds/Sky - background
-Ground - grass
-
-MECHANICS
-Tree moving upwards, animation; simulating that the koala is sliding downwards
-||
-tree stays still, koala slides towards the ground
-
-collision with ground; deoends on speed of collision; success || fail (Koala lives || You dead)
-slow down with key press 
-
-scale example taken from https://editor.p5js.org/creativecoding/sketches/0JBTBmvGb,
-as well as from a lab session
- */
-
 let x = 685;
-// let y = 90;
-// characterX = 685;
 let characterY = 90;
 cloudX = 600;
 cloudY = 100;
-//length, height of cloud
-let l = 200;
-let h = 50;
+cloudX2 = 600;
+cloudY2 = 125;
 
 //gamelogic i guess
 let velocityY = 4;
@@ -48,7 +24,6 @@ function character(x, y, mirrored) {
     if (mirrored) {
         scale(-1, 1);
     }
-    // translate(-x, -y);
 
     //main body colours
     strokeWeight(5);
@@ -67,15 +42,6 @@ function character(x, y, mirrored) {
         ellipse(75, -40, 45, 60);
         pop();
         pop();
-    
-        //right arm
-        // push();
-        // beginShape();
-        // vertex(x+50, y+95);
-        // bezierVertex(x, y+155, x-80, y+95, x-110, y+115);
-        // bezierVertex(x-120, y+205, x+10, y+185, x+50, y+145);
-        // endShape();
-        // pop();
     
         //body
         push();
@@ -204,6 +170,83 @@ function character(x, y, mirrored) {
         pop();
 }
 
+function koalaFace(x, y) {
+    push();
+    translate(x, y);
+    strokeWeight(5);
+        stroke(120, 120, 110);
+        fill(150, 147, 137);
+    
+        //ears
+        push();
+        ellipse(-75, -40, 75, 90);
+        ellipse(75, -40, 75, 90);
+        //inside ears
+        push();
+        noStroke();
+        fill(196, 193, 183);
+        ellipse(-75, -40, 45, 60);
+        ellipse(75, -40, 45, 60);
+        pop();
+        pop();
+    
+        //head
+        push();
+        ellipse(0, 0, 150);
+        pop();
+    
+        //for facial features:
+        push();
+        noStroke();
+    
+        //eyes
+        fill(25, 25, 25);
+        
+    //left
+        push();
+        translate (-30, -5);
+        ellipse(0, 0, 30);
+        pop();
+    //right
+        push();
+        translate(+30, -5);
+        ellipse(0, 0, 30);
+        pop();
+    
+        //eye-shine
+        push();
+        fill(245, 245, 245);
+    //left
+        push();
+        translate(-30, -5);  
+        ellipse(2, -4, 15);
+        ellipse(-3, 7, 5);
+        pop();
+    //right
+        translate(+30, -5);
+        ellipse(2, -4, 15);
+        ellipse(-3, 7, 5);
+        pop();
+    
+        //nose
+        push();
+        rotate(1.55);
+        ellipse(20, 0, 50, 35);
+        pop();
+        pop();
+    
+        //mouth
+        push();
+        noFill();
+        strokeWeight(5);
+        stroke(51, 50, 45);
+        translate(0, +30);
+        rotate(2.3);
+        arc(0, 0, 50, 50, 30, 0);
+        pop();
+        pop();
+}
+
 function tree(x, y){
     push();
     strokeWeight(5);
@@ -221,41 +264,28 @@ function ground(){
     pop();
 }
 
-function cloud(x, y, l, h) {
+function cloud(x, y) {
     push();
     noStroke();
     fill(255);
-    ellipse(x, y, 200, 50);
+    ellipse(x, y, 250, 100);
     pop();
 }
 
-function gameOverText(){
+function gameLogo() {
+    push();    strokeWeight(5);
+    stroke(207, 135, 76);
+
+    fill(237, 163, 102);
+    ellipse(300, 180, 350, 175);
+
+    push();
     noStroke();
-    push();
-    fill(52, 235, 140);
-    rect(130, 155, 300, 100);
+    fill(207, 135, 76);
+    textSize(48);
+    text('Koala Climber', 150, 160, 400, 200);
     pop();
-
-    //text
-    push();
-    fill(189, 255, 221);
-    textSize(50);
-    text('Game Over', 150, 180, 300, 200);
-    pop();
-}
-
-function successText(){
-    noStroke();
-    push();
-    fill(52, 235, 140);
-    rect(130, 155, 300, 100);
-    pop();
-
-    //text
-    push();
-    fill(189, 255, 221);
-    textSize(40);
-    text('Koala is Good', 150, 190, 300, 200);
+    
     pop();
 }
 
@@ -263,14 +293,44 @@ function playButton() {
     noStroke();
     push();
     fill(52, 235, 140);
-    rect(130, 155, 300, 100);
+    rect(150, 300, 300, 100);
     pop();
 
     //text
     push();
     fill(189, 255, 221);
     textSize(50);
-    text('Play Game', 150, 180, 300, 200);
+    text('Play Game', 175, 325, 300, 200);
+    pop();
+}
+
+function gameOverText(){
+    noStroke();
+    push();
+    fill(52, 235, 140);
+    rect(150, 155, 300, 100);
+    pop();
+
+    //text
+    push();
+    fill(189, 255, 221);
+    textSize(50);
+    text('Game Over', 170, 180, 300, 200);
+    pop();
+}
+
+function successText(){
+    noStroke();
+    push();
+    fill(52, 235, 140);
+    rect(150, 155, 300, 100);
+    pop();
+
+    //text
+    push();
+    fill(189, 255, 221);
+    textSize(40);
+    text('Koala is Good', 170, 190, 300, 200);
     pop();
 }
 
@@ -278,14 +338,29 @@ function replayButton() {
     noStroke();
     push();
     fill(52, 235, 140);
-    rect(130, 300, 300, 100);
+    rect(150, 300, 300, 100);
     pop();
 
     //text
     push();
     fill(189, 255, 221);
     textSize(50);
-    text('Replay', 200, 325, 300, 200);
+    text('Replay', 220, 325, 300, 200);
+    pop();
+}
+
+function koalaGood() {
+    push();
+    textSize(15);
+    fill(52, 235, 140);
+    text("koala made it down safely", 210, 60, 300, 50);
+    pop();
+}
+
+function koalaBad() {
+    push();
+    fill(52, 235, 140);
+    text("too fast, koala hurt his butt", 220, 60, 400, 100);
     pop();
 }
 
@@ -294,18 +369,9 @@ function keyPressed() {
     console.log("Key " + keyCode + " has been pressed");
 }
 
-function mouseClicked() {
+function mouseClicked() {    
     if (gameState === false) {
-    if (mouseX > 130 && mouseX < 430 && mouseY > 155 && mouseY < 255 ) {
-        
-        //loop until fail statement? how do you do this!!! aargh
-        gameState = true;
-        console.log("du suger");
-    }
-    }
-    
-    if (gameState === false) {
-    if (mouseX > 130 && mouseX < 430 && mouseY > 300 && mouseY < 400) {
+    if (mouseX > 150 && mouseX < 450 && mouseY > 300 && mouseY < 400) {
         console.log("det fungerade??!");
         clear();
   
@@ -321,30 +387,22 @@ function draw() {
 
     background(199, 250, 255);
     playButton();
-    // cloud(cloudX, cloudY);
-    // cloudX = cloudX - 0.5;
-    // if (cloudX < - 100) {
-    //     cloudX = width;
-    // }
-
-    // if (gameState === false) {
-    //     /*make an aesthetic image of a tree,
-    //     and silhouette of koala eatin some eucalyptus,
-    //     with clouds, and maybe some leaves,
-    //     mountains in the background haha
-    //     */
-    // }
+    gameLogo();
+    koalaFace(300, 550);
     
     if (gameState === true) {
         background(199, 250, 255);
-        //cloud "settings"
-        for (let i = 1; i < 6; i++) {
-            cloud(cloudX, i * cloudY);
-        }
+        random(10, 600);
+        cloud(cloudX, cloudY);
             cloudX = cloudX - 0.5;
         if (cloudX < - 100) {
         cloudX = width;
         }
+        cloud(cloudX2, cloudY2);
+        cloudX2 = cloudX2 - 1;
+        if (cloudX2 < - 100) {
+            cloudX2 = width;
+            }
                 
         tree();
         ground();
@@ -380,39 +438,24 @@ function draw() {
         }
         }
 
-        // if (characterY > 920) {
-        //     velocityY =  0;
-        //     accelleration = 0;
-        //     if (x < 400) {
-        //         notMirrored = true;
-        //         console.log("you died");
-        //     }
-        // }
-    // velocity counter fail > succeed
-    //make it a for loop? only once
-    // if (characterY > 920 && 0 !== velocityY > 12) {
-    //     console.log("too fast, koala hurt his butt");
-    // } else if (characterY > 920 && 0 !== velocityY < 7) {
-    //     console.log("koala made it down safely");
-    // }
-
     if (characterY > 920) {
         if (x < 400) {
             notMirrored = true;
         }
-        if (velocityY > 3) {
+        if (velocityY > 3.5) {
             gameState = false;
-            console.log("too fast, koala hurt his butt");
+            background(199, 250, 255);
+            koalaBad();
             gameOverText();
             replayButton();
+            console.log("too fast, koala hurt his butt");
         } else {
             gameState = false;
+            background(199, 250, 255);
+            koalaGood();
             successText();
             replayButton();
             console.log("koala made it down safely");
         }
         }
-
-        //random number for cloudY value, and also cloudX, to chnage speed
-
 }
