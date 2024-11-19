@@ -1,12 +1,36 @@
+/*
+Koala sliding down a tree game
+
+OBJECTS
+Koala
+Tree
+Clouds/Sky - background
+Ground - grass
+
+MECHANICS
+Tree moving upwards, animation; simulating that the koala is sliding downwards
+||
+tree stays still, koala slides towards the ground
+
+collision with ground; deoends on speed of collision; success || fail (Koala lives || You dead)
+slow down with key press 
+
+scale example taken from https://editor.p5js.org/creativecoding/sketches/0JBTBmvGb,
+as well as from a lab session
+ */
+
 let x = 685;
 let y = 90;
+let characterY = 90;
 
-let speed = 4;
+let velocityY = 4;
 let gravity = 4;
 let acceleration = 0.2;
 let isMirrored = true;
 
 let gameState = true;
+let gamePlay = true;
+
 
 function setup() {
     createCanvas (550, 700);
@@ -208,6 +232,21 @@ function youDiedText(){
     pop();
 }
 
+function playButton() {
+     noStroke();
+    push();
+    fill(52, 235, 140);
+    rect(130, 155, 300, 100);
+    pop();
+
+    //text
+    push();
+    fill(189, 255, 221);
+    textSize(50);
+    text('Play Game', 150, 180, 300, 200);
+    pop();
+}
+
 //keyCode
 function keyPressed() {
     console.log("Key " + keyCode + " has been pressed");
@@ -217,54 +256,53 @@ function draw(){
     background(199, 250, 255);
     tree();
     ground();
-    isMirrored = false;
+    notMirrored = false;
 
+    /*gameplay button
+    mousepressed within parameters, then gamestate === true,
+    therefore the game is starting
+    */
+    if (gamePlay === true) {
+    //button pressed >> the game is playing
     if (gameState === true) {
 
-    // y = y + gravity;
-    // gravity = gravity + acceleration;
+    characterY = characterY + velocityY;
+    velocityY = velocityY + acceleration;
 
     // up-key
     if (keyIsDown(38)) {
-        y = y - speed;
-   
-    //gravity?
-    } else {
-        y = y + gravity;
+    velocityY = velocityY - 0.7;
     }
    
     // left movement
     if (keyIsDown(37 || 65)) {
        x = 360;
-       isMirrored = true;
+       notMirrored = true;
     
     // right movement
     } else if (keyIsDown(39 || 68)) {
         x = 685;
-        isMirrored = false;
+        notMirrored = false;
     }
 
-    // if (y > 780 || y < 0) {
-    //     gravity = gravity * -1;
-    // }
 
-
-    if (y > 920) {
-        gravity = 0;
+    if (characterY > 920) {
         gameState = false;
         console.log("you died");
-    } else {
-        gravity = 4;
     }
 
     if (x < 400) {
-        isMirrored = true;
+        notMirrored = true;
     }
     }
 
     if (gameState === false) {
         youDiedText();
+        if (x < 400) {
+            notMirrored = true;
+        }
     }
 
-    character(x, y, isMirrored);
+    character(x, characterY, notMirrored);
+}
 }
