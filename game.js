@@ -23,6 +23,11 @@ let x = 685;
 // let y = 90;
 // characterX = 685;
 let characterY = 90;
+cloudX = 600;
+cloudY = 100;
+//length, height of cloud
+let l = 200;
+let h = 50;
 
 //gamelogic i guess
 let velocityY = 4;
@@ -216,6 +221,14 @@ function ground(){
     pop();
 }
 
+function cloud(x, y, l, h) {
+    push();
+    noStroke();
+    fill(255);
+    ellipse(x, y, 200, 50);
+    pop();
+}
+
 function gameOverText(){
     noStroke();
     push();
@@ -228,6 +241,21 @@ function gameOverText(){
     fill(189, 255, 221);
     textSize(50);
     text('Game Over', 150, 180, 300, 200);
+    pop();
+}
+
+function successText(){
+    noStroke();
+    push();
+    fill(52, 235, 140);
+    rect(130, 155, 300, 100);
+    pop();
+
+    //text
+    push();
+    fill(189, 255, 221);
+    textSize(40);
+    text('Koala is Good', 150, 190, 300, 200);
     pop();
 }
 
@@ -272,25 +300,33 @@ function mouseClicked() {
         
         //loop until fail statement? how do you do this!!! aargh
         gameState = true;
-        console.log("working?");
+        console.log("du suger");
     }
     }
     
-    if (gameState === true && characterY > 920) {
+    if (gameState === false) {
     if (mouseX > 130 && mouseX < 430 && mouseY > 300 && mouseY < 400) {
         console.log("det fungerade??!");
         clear();
+  
+        gameState = true;
         characterY = 90;
-        let velocityY = 4;
-        let acceleration = 0.2;
+        velocityY = 4;
+        acceleration = 0.2;
     }
     }
-    }
+}
 
-function draw(){
+function draw() {
 
     background(199, 250, 255);
     playButton();
+    // cloud(cloudX, cloudY);
+    // cloudX = cloudX - 0.5;
+    // if (cloudX < - 100) {
+    //     cloudX = width;
+    // }
+
     // if (gameState === false) {
     //     /*make an aesthetic image of a tree,
     //     and silhouette of koala eatin some eucalyptus,
@@ -300,6 +336,16 @@ function draw(){
     // }
     
     if (gameState === true) {
+        background(199, 250, 255);
+        //cloud "settings"
+        for (let i = 1; i < 6; i++) {
+            cloud(cloudX, i * cloudY);
+        }
+            cloudX = cloudX - 0.5;
+        if (cloudX < - 100) {
+        cloudX = width;
+        }
+                
         tree();
         ground();
         character(x, characterY, notMirrored);
@@ -334,21 +380,39 @@ function draw(){
         }
         }
 
-        if (characterY > 920) {
-            gameOverText();
-            replayButton();
-            velocityY =  0;
-            accelleration = 0;
-            if (x < 400) {
-                notMirrored = true;
-                console.log("you died");
-            }
-        }
+        // if (characterY > 920) {
+        //     velocityY =  0;
+        //     accelleration = 0;
+        //     if (x < 400) {
+        //         notMirrored = true;
+        //         console.log("you died");
+        //     }
+        // }
     // velocity counter fail > succeed
-    if (characterY > 920 && velocityY > 8) {
-        console.log("too fast, koala hurt his butt");
-    } 
-    // if (characterY > 920 && velocityY < 0) {
+    //make it a for loop? only once
+    // if (characterY > 920 && 0 !== velocityY > 12) {
+    //     console.log("too fast, koala hurt his butt");
+    // } else if (characterY > 920 && 0 !== velocityY < 7) {
     //     console.log("koala made it down safely");
     // }
+
+    if (characterY > 920) {
+        if (x < 400) {
+            notMirrored = true;
+        }
+        if (velocityY > 3) {
+            gameState = false;
+            console.log("too fast, koala hurt his butt");
+            gameOverText();
+            replayButton();
+        } else {
+            gameState = false;
+            successText();
+            replayButton();
+            console.log("koala made it down safely");
+        }
+        }
+
+        //random number for cloudY value, and also cloudX, to chnage speed
+
 }
