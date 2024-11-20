@@ -1,4 +1,4 @@
-let x = 685;
+let x = 760;
 let characterY = 90;
 cloudX = 600;
 cloudY = 100;
@@ -252,7 +252,7 @@ function tree(x, y){
     strokeWeight(5);
     stroke(207, 135, 76);
     fill(237, 163, 102);
-    rect(200, -10, 125, 780);
+    rect(240, -10, 125, 780);
     pop();
 }
 
@@ -418,18 +418,18 @@ function draw() {
 
         //game character movement (up/left/right) 
         // up movement
-        if (keyIsDown(38)) {
+        if (keyIsDown(32)) {
         velocityY = velocityY - 0.7;
         }
    
         // left movement
-        if (keyIsDown(37 || 65)) {
-           x = 360;
+        if (keyIsDown(37)) {
+           x = 450;
            notMirrored = true;
     
         // right movement
-        } else if (keyIsDown(39 || 68)) {
-        x = 685;
+        } else if (keyIsDown(39)) {
+        x = 760;
         notMirrored = false;
         }
         
@@ -448,6 +448,7 @@ function draw() {
             koalaBad();
             gameOverText();
             replayButton();
+            koalaFace(300, 675);
             console.log("too fast, koala hurt his butt");
         } else {
             gameState = false;
@@ -455,6 +456,7 @@ function draw() {
             koalaGood();
             successText();
             replayButton();
+            koalaFace(300, 675);
             console.log("koala made it down safely");
         }
         }
