@@ -396,12 +396,12 @@ function draw() {
         cloud(cloudX, cloudY);
             cloudX = cloudX - 0.5;
         if (cloudX < - 100) {
-        cloudX = width;
+        cloudX = width + 100;
         }
         cloud(cloudX2, cloudY2);
         cloudX2 = cloudX2 - 1;
         if (cloudX2 < - 100) {
-            cloudX2 = width;
+            cloudX2 = width + 100;
             }
                 
         tree();
